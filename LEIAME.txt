@@ -1,0 +1,61 @@
+GRIMÓRIO - gerenciador de campanhas de RPG
+
+COMO USAR
+1. Dê dois cliques em iniciar.bat (precisa do PHP 8+ instalado; XAMPP e Laragon também são detectados).
+2. O navegador abre em http://localhost:8000
+3. Para encerrar, feche a janela preta do terminal.
+
+ONDE FICAM SEUS DADOS
+Tudo fica na pasta data/ dentro desta pasta:
+  data/campanhas/   uma campanha por arquivo .json
+  data/registros/   personagens, NPCs, locais, itens, facções, sessões, notas e mapas (.json)
+  data/imagens/     todas as imagens enviadas
+  data/arquivos/    PDFs, documentos e outros anexos
+
+Para fazer backup, copie a pasta data/ ou use o link "Backup" no topo do sistema (gera um .zip).
+Para mudar de computador, copie a pasta inteira.
+
+UPLOAD RÁPIDO (estilo Notion)
+- Em cada seção (NPCs, Mapas, Personagens...) há uma área "Arraste arquivos aqui".
+  Cada nome de arquivo vira um registro. Imagem = retrato/mapa; PDF/Word/Excel = anexo (ficha);
+  .txt/.md = texto da descrição.
+- Arquivos com o MESMO nome viram um registro só: Strahd.png + Strahd.pdf + Strahd.md
+  cria o NPC "Strahd" com imagem, ficha em PDF anexada e descrição.
+- Dentro de qualquer registro ou da campanha também há uma área para anexar arquivos depois.
+- PDFs podem ser visualizados na própria página.
+- Formatos aceitos como anexo: pdf, doc, docx, odt, rtf, txt, md, csv, xls, xlsx, ods, ppt, pptx, json, zip.
+- Use o campo "Pasta" nos registros para agrupar (ex.: "Capítulo 1"); as pastas aparecem na barra lateral.
+
+BIBLIOTECA DE REGRAS (menu "Biblioteca")
+- Envie os PDFs (Livro do Jogador, Guia do Mestre, Livro dos Monstros, suplementos). Eles valem para todas as campanhas.
+- Depois do envio o texto é indexado no navegador (poucos segundos por livro) para a busca funcionar.
+- "Abrir" usa o leitor próprio: busca por palavra com destaque (Ctrl+F), ir para página, zoom e índice (capítulos) do livro.
+- A busca da página Biblioteca procura em todos os livros ao mesmo tempo, sem diferenciar acentos, e abre o leitor na página certa.
+- Nos textos dos registros use {{Nome do livro|123}} para criar um link que abre o livro na página 123.
+  Opcional: {{Nome do livro|123|palavra}} abre já com a palavra destacada.
+- PDFs escaneados (só imagem) abrem no leitor, mas a busca por palavra não funciona neles.
+- Os PDFs ficam em data/biblioteca/. O link "Backup" não inclui essa pasta (são livros que você já tem);
+  para incluir, use o endereço /?p=backup&completo=1
+
+CAIXA DE ENTRADA (para o Claude montar a história com você)
+- Qualquer arquivo .json colocado em data/importar/ é importado automaticamente na próxima vez que você abrir ou recarregar uma página.
+- Se já existir um registro com o mesmo tipo e título na campanha, ele é atualizado em vez de duplicado.
+- Arquivos processados vão para data/importar/feitos/ e os com erro para data/importar/erros/.
+- Formato:
+  {
+    "campanha": {"nome": "Minha campanha", "sistema": "D&D 5e", "status": "Ativa", "descricao": "..."},
+    "registros": [
+      {"tipo": "npc", "titulo": "Nome", "pasta": "Vilões", "tags": ["a", "b"],
+       "acrescentar": false,
+       "campos": {"papel": "...", "descricao": "...", "atributos": {"FOR": "18"}}}
+    ]
+  }
+  Tipos: personagem, npc, local, item, divindade, faccao, encontro, sessao, nota, mapa.
+  Para mudar o título de um registro existente use "renomear_de": "Título antigo" junto com o novo "titulo".
+  "campanha" pode ser só o nome de uma campanha existente. Com "acrescentar": true, campos de texto são somados ao que já existe.
+
+DICAS
+- [[Nome de um registro]] em qualquer texto cria um link para ele; o registro linkado mostra "Mencionado em".
+- Formatação: **negrito**, *itálico*, listas com "- " e títulos com "## ".
+- Atributos das fichas são livres: adicione as linhas que o seu sistema precisar.
+- O botão "Dados" no topo abre um rolador de dados.
